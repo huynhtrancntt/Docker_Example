@@ -1,0 +1,53 @@
+Windows:
+docker run ^
+-e MYSQL_ROOT_PASSWORD=Abc@123456789 ^
+--name mysql8-container ^
+-p 3308:3306 ^
+-v mysql8-volume:/var/lib/mysql ^
+-d mysql
+
+___________________________
+
+docker run -e MYSQL_ROOT_PASSWORD=Abc@123456789 
+--name mysql8-container 
+-p 3308:3306 
+-v 
+mysql8-volume:/var/lib/mysql -d mysql
+
+
+___________________________
+
+docker network create ht-app-network
+
+docker network ls
+
+
+docker run -d ^
+--name mysql-container ^
+--network ht-app-network ^
+--network-alias ht-app-network-alias ^
+-v todo-mysql-database:/var/lib/mysql  ^
+-e MYSQL_ROOT_PASSWORD=Abc@123456789 ^
+-e MYSQL_DATABASE=htDB ^
+-d mysql
+
+docker run -it ^
+--network ht-app-network ^
+--name netshoot-container ^
+nicolaka/netshoot
+
+
+dig ht-app-network-alias
+
+
+
+docker run -dp 8002:8000 ^
+--name ht-app-container ^
+-w /app -v "D:\Docker\Docker_Example\NodeJsApp":/app ^
+--network ht-app-network ^
+-e MYSQL_HOST=ht-app-network-alias ^
+-e MYSQL_USER=root ^
+-e MYSQL_PASSWORD=Abc@123456789 ^
+-e MYSQL_DB=htDB ^
+node ^
+sh -c "yarn install && yarn run dev"

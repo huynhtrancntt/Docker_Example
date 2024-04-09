@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  ht_mysql:
+    image: mysql
+    container_name: ht_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - ht-app-network
+
+  ht_myadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: ht_myadmin
+    restart: always
+    environment:
+      PMA_HOST: ht_mysql
+    ports:
+      - 8081:80
+    networks:
+      - ht-app-network
+
+networks:
+  ht-app-network:
+
+volumes:
+  mysql_data:
+
+# docker-compose up  -d

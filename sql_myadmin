@@ -1,0 +1,5 @@
+docker network create mysql
+
+docker run --name learn_mysql --network mysql -v mysql_data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123 -d mysql:5.7
+
+docker run --name myadmin -d --network mysql -p 8081:80 -e PMA_HOST=learn_mysql phpmyadmin/phpmyadmin
