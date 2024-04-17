@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  seafile:
+    image: seafileltd/seafile:latest
+    container_name: seafile
+    environment:
+      - SEAFILE_SERVER_LETSENCRYPT=false
+      - SEAFILE_ADMIN_EMAIL=ht@vmnx.net
+      - SEAFILE_ADMIN_PASSWORD=123456
+      - SEAFILE_SERVER_HOSTNAME=ht.local
+    ports:
+      - "8800:80"
+      - "443:443"
+    volumes:
+      - ./seafile-data:/shared
+    depends_on:
+      - db
+      - myadmin
+    restart: always
+
+  db:
+    image: mysql:8
+    container_name: seafile-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=myrootpassword
+      - MYSQL_DATABASE=seafile
+      - MYSQL_USER=seafile
+      - MYSQL_PASSWORD=mydbpassword
+    ports:
+      - "3309:3306"  # Thay đổi cổng 3307 trên máy chủ Docker sang cổng 3306 trong container MySQL
+    volumes:
+      - ./seafile-db:/var/lib/mysql
+    restart: always
+
+  myadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: seafile-myadmin
+    ports:
+      - "8080:80"
+    environment:
+      - PMA_HOST=db
+    restart: always

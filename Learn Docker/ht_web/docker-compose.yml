@@ -9,6 +9,8 @@ services:
       MYSQL_ROOT_PASSWORD: 
     volumes:
       - ./mysql_data:/var/lib/mysql
+    ports:
+      - "3307:3306" # Change the port here
     networks:
       - ht-app-network
 
@@ -23,6 +25,7 @@ services:
       - 8081:80
     networks:
       - ht-app-network
+
   redis:
     image: redis:latest
     container_name: redis
@@ -33,6 +36,7 @@ services:
     restart: always
     networks:
       - ht-app-network
+
   phpredisadmin:
     image: erikdubbelboer/phpredisadmin
     container_name: phpredisadmin
@@ -44,7 +48,6 @@ services:
       - REDIS_1_PORT=6379
     networks:
       - ht-app-network
+
 networks:
   ht-app-network:
-
-
