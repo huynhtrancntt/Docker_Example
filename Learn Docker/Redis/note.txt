@@ -1,0 +1,7 @@
+docker run -p 6379:6379 -d redis
+
+docker exec -it 3abc84992e56 sh
+
+docker exec -it 3abc84992e56 redis-cli
+
+winpty docker exec -it 3abc84992e56 sh
