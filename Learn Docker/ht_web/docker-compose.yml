@@ -48,6 +48,17 @@ services:
       - REDIS_1_PORT=6379
     networks:
       - ht-app-network
-
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    restart: always
+    ports:
+      - "8083:8080"
+    volumes:
+      - ./jenkins_home:/var/jenkins_home
+    networks:
+      - ht-app-network
 networks:
   ht-app-network:
+
+  # docker-compose up -d
