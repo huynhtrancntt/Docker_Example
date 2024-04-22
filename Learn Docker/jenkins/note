@@ -2,13 +2,14 @@ docker run -d \
   -p 8088:8080 \
   -p 50000:50000 \
   -v ./jenkins_home:/var/jenkins_home \
+  -v $(which docker):$(which docker)
   --name jenkins \
   jenkins/jenkins:lts
 
 
 
 
-docker run -v $(which docker):$(which docker) -v ./data:/var/jenkins_home  -p 8088:8080  --name jenkins-server -d jenkins/jenkins:lts
+docker run  -v ./jenkins_home:/var/jenkins_home  -p 8088:8080  --name jenkins-server -d jenkins/jenkins:lts
 
 winpty docker exec -it e511a5d4a4bd bash
 
@@ -17,9 +18,9 @@ winpty docker exec 97373a3c06f  cat /var/jenkins_home/secrets/initialAdminPasswo
  #!/usr/bin/env bash
 mkdir -p /home/jenkins/data
 cd /home/jenkin
-docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(which docker):$(which docker) -v `pwd`/data:/var/jenkins_home  -p 8080:8080  --user 1000:999 --name jenkins-server -d jenkins/jenkins:lts
+docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(which docker):$(which docker) -v `pwd`/jenkins_home:/var/jenkins_home  -p 8080:8080  --user 1000:999 --name jenkins-server -d jenkins/jenkins:lts
 
-
+docker run -v $(which docker):$(which docker) -v `pwd`/jenkins_home:/var/jenkins_home  -p 8080:8080 --name jenkins-server -d jenkins/jenkins:lts
 
 https://github.com/nhtua
 
@@ -37,3 +38,10 @@ docker run -d \
 echo Hello World
 java --version
 docker version
+
+
+docker run -d \
+  -p 8088:8080 \
+  -p 50000:50000 \
+  --name jenkins \
+  jenkins/jenkins:lts

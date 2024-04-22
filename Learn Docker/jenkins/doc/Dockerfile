@@ -25,3 +25,6 @@ USER jenkins
 #            -e DOCKER_HOST=tcp://127.0.0.1:2375 \
 #            -p 8088:8080 \
 #           huynhtrancntt/jenkins:1.0.0 
+
+
+unix /var/run/docker.sock
