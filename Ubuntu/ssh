@@ -1,0 +1,13 @@
+# Authentication:
+LoginGraceTime 120
+PermitRootLogin prohibit-password
+StrictModes yes
+RSAAuthentication yes
+PubkeyAuthentication yes
+Đảm bảo 2 dòng in đậm được cài đặt là yes
+AuthorizedKeysFile %h/.ssh/authorized_keys 
+
+
+
+https://linuxteamvietnam.us/cai-dat-ssh-tren-ubuntu-server/
+

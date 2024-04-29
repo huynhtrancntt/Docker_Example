@@ -27,4 +27,3 @@ USER jenkins
 #           huynhtrancntt/jenkins:1.0.0 
 
 
-unix /var/run/docker.sock

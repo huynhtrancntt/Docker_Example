@@ -27,24 +27,18 @@ systemctl status docker
 #  cấu hình docker 
 # nano /lib/systemd/system/docker.service
 
-# unix://var/run/docker.sock -H tcp://192.168.20.108 
+# unix://var/run/docker.sock -H tcp://192.168.20.112
 
 # systemctl daemon-reload
 # sudo systemctl restart docker
 # systemctl status docker
 
 
-# tạo user
+# tạo user  
 
 # git clone https://github.com/nhtua/bookshell.git
 #  cd bookshell/ 
 #  ./add-docker-user.sh jenkins
 
-
-# mkdris data_jenkins
-
-passwd -e jenkins
-
-# docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(which docker):$(which docker) -v `pwd`/jenkins_home:/var/jenkins_home  -p 8080:8080  --user 1000:999 --name jenkins-server -d jenkins/jenkins:lts
-
-docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(which docker):$(which docker) -v `pwd`/jenkins_home:/var/jenkins_home  -p 8080:8080  --name jenkins-server -d jenkins/jenkins:lts
+# p
+# docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(which docker):$(which docker) -v `pwd`/jenkins_data:/var/jenkins_home  -p 8088:8080 --name jenkins-server -d jenkins/jenkins:lts
