@@ -16,19 +16,40 @@
 
 
 # # ./mvnw spring-boot:run
-# # docker build -t your-image-name .
+# # docker build -t springboot .
 # # docker run -p 8088:8080 springboot
 
 
-#Build
-FROM maven:3.8.4-openjdk-17-slim AS build
-WORKDIR /app
-COPY ./ /app/
-RUN mvn package -f /app/pom.xml
+# #Build
+# FROM maven:3.8.4-openjdk-17-slim AS build
+# WORKDIR /app
+# COPY ./ /app/
+# RUN mvn package -f /app/pom.xml
 
-#multi-staging
-FROM openjdk:17-slim  
+# #multi-staging
+# FROM openjdk:17-slim  
+# WORKDIR /app
+# COPY --from=build /app/target/SpringBoot-0.0.1-SNAPSHOT.jar app.jar
+# EXPOSE 8080
+# CMD ["java","-jar","app.jar"]
+
+
+
+# Build stage
+FROM maven:3.8.7-openjdk-18 AS build
+WORKDIR /app
+COPY pom.xml .
+RUN mvn dependency:go-offline
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+# Runtime stage
+FROM amazoncorretto:17
+
+ARG APP_VERSION=1.0.1
+
 WORKDIR /app
 COPY --from=build /app/target/SpringBoot-0.0.1-SNAPSHOT.jar app.jar
+
 EXPOSE 8080
-CMD ["java","-jar","app.jar"]
+CMD java -jar app.jar
