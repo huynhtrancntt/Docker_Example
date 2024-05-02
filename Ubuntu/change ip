@@ -1,3 +1,30 @@
 ip route | grep default
 
 ls /etc/netplan/
+
+nano /etc/netplan/00-installer-config.yaml
+
+
+network:
+  ethernets:
+    ens33:
+      dhcp4: false
+      addresses: [192.168.20.110/24]
+      gateway4: 192.168.20.1
+      nameservers:
+        addresses: [8.8.8.8,8.8.4.4]
+  version: 2
+
+#  áp dụng cấu hình vừa cài đặt.
+netplan apply 
+# apply debug cung cấp những đầu ra cần thiết để khắc phục sự cố mạng nếu cần thiết.
+netplan --debug
+
+ip a
+
+
+# Cho phép đăng nhập tài khoản root từ bên ngoài
+# set mật khẩu cho tài khoản root.
+passwd 
+# cho phép đăng nhập tài khoản root.
+sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config 

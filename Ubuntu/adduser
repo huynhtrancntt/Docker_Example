@@ -1,0 +1,69 @@
+
+# tạo user new
+adduser ht01
+# xem passwd
+nano /etc/passwd
+# tạo group
+groupadd devopp
+# add user vào group
+usermod -aG devopp ht01
+# xem user nằm group nào
+groups ht01
+
+ls -l
+
+chown -R root:devopp data
+
+ssh ht@192.168.20.110
+
+scp todolist.zip ht@192.168.20.110:/home/ht
+
+
+apt install unzip
+
+sudo chown -R ht:ht todolist
+
+
+sudo apt install nginx
+
+cd /etc/nginx/
+
+ nano conf.d/todolist.conf
+    server {
+        listen 80;
+        server_name todolist.local;
+
+        root /home/ht/project/todolist/dist/; # Change this to the actual path of your Todolist application
+
+        location / {
+            index index.html index.htm;
+        }
+    }
+
+ 
+
+nginx -t
+
+systemctl restart nginx
+
+usermod -aG ht www-data
+
+nginx -s reload
+
+# sudo nano /etc/hosts
+
+
+sudo usermod -aG sudo username
+
+
+# nano /lib/systemd/system/vision.service
+
+# [Service]
+# Type=simple
+# User=vision
+# Restart=on-failure
+# WorkingDirectory=/projects/vision/
+# ExecStart=npm run start -- --port 3000
+
+# systemctl daemon-reload
+# systemctl start vision
