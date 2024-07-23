@@ -5,7 +5,8 @@ services:
     image: mysql:8
     container_name: mysql_db
     volumes:
-      - db_data:/var/lib/mysql
+      - ./db_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: your_mysql_root_password
@@ -19,14 +20,35 @@ services:
     image: wordpress:latest
     container_name: wordpress
     ports:
-      - "8080:80"
+      - "8880:80"
     restart: always
     environment:
       WORDPRESS_DB_HOST: db
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress_password
       WORDPRESS_DB_NAME: wordpress
-    
+    volumes:
+      - ./wp_content:/var/www/html
+      - ./custom-php.ini:/usr/local/etc/php/conf.d/custom-php.ini
+    depends_on:
+      - db
+    networks:
+      - my_network
+
+  wordpress2:
+    image: wordpress:latest
+    container_name: wordpress2
+    ports:
+      - "9990:80"
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wordpress2
+      WORDPRESS_DB_PASSWORD: wordpress2_password
+      WORDPRESS_DB_NAME: wordpress2_db
+    volumes:
+      - ./wp_content2:/var/www/html
+      - ./custom-php.ini:/usr/local/etc/php/conf.d/custom-php.ini
     depends_on:
       - db
     networks:
@@ -38,15 +60,18 @@ services:
     restart: always
     environment:
       PMA_HOST: db
+    ports:
+      - "8882:80"
     depends_on:
       - db
-    ports:
-      - 8082:80
     networks:
       - my_network
 
 networks:
   my_network:
 
+
 volumes:
   db_data:
+  wp_content:
+  wp_content2:
