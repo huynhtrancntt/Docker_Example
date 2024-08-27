@@ -1,0 +1,30 @@
+nano /lib/systemd/system/docker.service
+
+unix://var/run/docker.sock -H tcp://182.168.20.110  
+ExecStart=/usr/bin/dockerd -H unix://var/run/docker.sock -H tcp://192.168.20.110 --containerd=/run/containerd/containerd.sock
+
+systemctl daemon-reload
+sudo systemctl restart docker 
+sudo systemctl status docker
+
+./ 
+
+pwh 
+
+
+id 
+
+docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(which docker):$(which docker) -v `pwd`/data:/var/jenkins_home  -p 8080:8080  --user 1000:999 --name jenkins-server -d jenkins/jenkins:lts
+
+
+docker exec -it 
+
+____________________________
+
+# tạo user New
+.add-docker-user.sh jenkins
+
+#!/usr/bin/env bash
+mkdir -p /home/jenkins/data
+cd /home/jenkins
+docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(which docker):$(which docker) -v `pwd`/data:/var/jenkins_home  -p 8080:8080  --user 1000:999 --name jenkins-server -d jenkins/jenkins:lts
