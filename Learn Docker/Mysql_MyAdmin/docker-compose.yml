@@ -9,8 +9,11 @@ services:
       MYSQL_ROOT_PASSWORD: 123
     volumes:
       - mysql:/var/lib/mysql
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
     networks:
       - ht-app-network
+    ports:
+      - 3308:3306  # Ánh xạ cổng 3308 trên host sang cổng 3306 trong container
 
   myadmin:
     image: phpmyadmin/phpmyadmin
@@ -18,13 +21,25 @@ services:
     restart: always
     environment:
       PMA_HOST: mysql
+      UPLOAD_LIMIT: 50G
     ports:
       - 8081:80
     networks:
       - ht-app-network
+    volumes:
+      - ./php.ini:/usr/local/etc/php/conf.d/php.ini
 
 networks:
   ht-app-network:
 
 volumes:
   mysql:
+
+
+# my.cnf
+# Tạo file my.cnf với cấu hình như sau:
+# max_allowed_packet=50G  # Tăng kích thước gói tối đa lên 50GB
+
+# Tạo file php.ini với cấu hình như sau:
+# upload_max_filesize = 50G  # Tăng giới hạn upload file lên 50GB
+# post_max_size = 50G  # Tăng giới hạn post dữ liệu lên 50GB
